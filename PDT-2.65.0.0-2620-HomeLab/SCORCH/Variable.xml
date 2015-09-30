@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--System Center 2012R2 Orchestrator-->
+<Installer version="2.0">
+  <Variable Name="RegisteredUser" Value="Contoso Corporation" />
+  <Variable Name="RegisteredOrganization" Value="Contoso Corporation" />
+  <Variable Name="InstallerServiceAccount" Value="CONTOSO\Installer" />
+  <Variable Name="InstallerServiceAccountPassword" Value="P@ssw0rd" />
+  <Variable Name="SourcePath" Value="$SystemDrive\Installer" />
+  <Variable Name="Download" Value="C:\Installer" />
+  <Variable Name="SystemCenter2012ProductKey" Value="" />
+  <Variable Name="SQLServer2012ProductKey" Value="" />
+  <Variable Name="DebugPS" Value="True" />
+  <Components>
+    <Component Name="System Center 2012 R2 Orchestrator">
+      <Variable Name="SystemCenter2012R2OrchestratorAdminGroup" Value="CONTOSO\SCO-Admins" />
+      <Variable Name="SystemCenter2012R2OrchestratorServerAdminGroup" Value="CONTOSO\SCO-LocalAdmins" />
+      <Variable Name="SystemCenter2012R2OrchestratorAGMembers" Value="CONTOSO\SCO-SVC;Contoso\SCOM-ACTION" />
+      <Variable Name="SystemCenter2012R2OrchestratorServiceAccount" Value="CONTOSO\SCO-SVC" />
+      <Variable Name="SystemCenter2012R2OrchestratorServiceAccountPassword" Value="P@ssw0rd" />
+    </Component>
+    <Component Name="SQL Server 2012">
+      <Variable Name="SQLServer2012ServerAdminGroup" Value="Contoso\SQL-LocalAdmins" />
+      <Variable Name="SQLServer2012AGMembers" Value="Contoso\SQL-SVC;Contoso\SCOM-ACTION;Contoso\SCSM-SVC;Contoso\SCSM-WF;Contoso\VMM-SVC;Contoso\SCSM-OLAP;Contoso\SCSM-SSRS;Contoso\VMM01A$;Contoso\VMM01B$" />
+    </Component>
+  </Components>
+  <Roles>
+    <Role Name="System Center 2012 R2 Orchestrator Database Server" Server="DB02.contoso.com" Instance="SCDB" />
+    <Role Name="System Center 2012 R2 Orchestrator Management Server" Server="OR01.contoso.com" />
+    <Role Name="System Center 2012 R2 Orchestrator Primary Runbook Server" Server="OR01.contoso.com" />
+    <Role Name="System Center 2012 R2 Orchestrator Web Components Server" Server="OR01.contoso.com" />
+    <Role Name="System Center 2012 R2 Orchestrator Runbook Designer" Server="OR01.contoso.com" />
+    <Role Name="SQL Server 2012 Management Tools" Server="DB02.contoso.com" />
+  </Roles>
+  <SQL>
+    <Instance Server="DB02.contoso.com" Instance="SCDB" Version="SQL Server 2012" Port="50001">
+      <Variable Name="SQLAdmins" Value="CONTOSO\SQL-Admins" />
+      <Variable Name="SQLInstallSQLDataDir" Value="D:\Program Files\Microsoft SQL Server" />
+      <Variable Name="SQLUserDBDir" Value="D:\Program Files\Microsoft SQL Server\MSSQL11.$Instance\MSSQL\Data" />
+      <Variable Name="SQLUserDBLogDir" Value="E:\Program Files\Microsoft SQL Server\MSSQL11.$Instance\MSSQL\Data" />
+      <Variable Name="SQLTempDBDir" Value="F:\Program Files\Microsoft SQL Server\MSSQL11.$Instance\MSSQL\Data" />
+      <Variable Name="SQLTempDBLogDir" Value="F:\Program Files\Microsoft SQL Server\MSSQL11.$Instance\MSSQL\Data" />
+      <Variable Name="SQLAgtServiceAccount" Value="CONTOSO\SQL-SVC" />
+      <Variable Name="SQLAgtServiceAccountPassword" Value="Pass@word1" />
+      <Variable Name="SQLServiceAccount" Value="CONTOSO\SQL-SVC" />
+      <Variable Name="SQLServiceAccountPassword" Value="Pass@word1" />
+    </Instance>
+    <Instance Server="SR01.CONTOSO.com" Instance="MSSQLSERVER" Version="SQL Server 2012">
+      <Variable Name="SQLAdmins" Value="CONTOSO\SQL-Admins" />
+      <Variable Name="SQLInstallSQLDataDir" Value="D:\Program Files\Microsoft SQL Server" />
+      <Variable Name="SQLUserDBDir" Value="D:\Program Files\Microsoft SQL Server\MSSQL11.$Instance\MSSQL\Data" />
+      <Variable Name="SQLUserDBLogDir" Value="E:\Program Files\Microsoft SQL Server\MSSQL11.$Instance\MSSQL\Data" />
+      <Variable Name="SQLTempDBDir" Value="F:\Program Files\Microsoft SQL Server\MSSQL11.$Instance\MSSQL\Data" />
+      <Variable Name="SQLTempDBLogDir" Value="F:\Program Files\Microsoft SQL Server\MSSQL11.$Instance\MSSQL\Data" />
+      <Variable Name="SQLAgtServiceAccount" Value="CONTOSO\SQL-SVC" />
+      <Variable Name="SQLAgtServiceAccountPassword" Value="Pass@word1" />
+      <Variable Name="SQLServiceAccount" Value="CONTOSO\SQL-SVC" />
+      <Variable Name="SQLServiceAccountPassword" Value="Pass@word1" />
+      <Variable Name="SQLASServiceAccount" Value="CONTOSO\SQL-SVC" />
+      <Variable Name="SQLASServiceAccountPassword" Value="Pass@word1" />
+    </Instance>
+  </SQL>
+  <VMs>
+    <Count>3</Count>
+    <Domain>
+      <Name>CONTOSO.com</Name>
+      <ServiceAccountOU>Services.HQ</ServiceAccountOU>
+      <GroupOU>Groups.HQ</GroupOU>
+      <Existing>False</Existing>
+    </Domain>
+    <Default>
+      <Host>Localhost</Host>
+      <VMFolder>C:\PDTVMs</VMFolder>
+      <VHDFolder>C:\PDTVMs</VHDFolder>
+      <SharedVHDXFolder>C:\SHAREDVHDX</SharedVHDXFolder>
+      <VMName>
+        <Prefix>WS12R2D</Prefix>
+        <Sequence>1</Sequence>
+      </VMName>
+      <Processor>2</Processor>
+      <Memory>
+        <Startup>768</Startup>
+        <Minimum>512</Minimum>
+        <Maximum>2048</Maximum>
+        <Buffer>20</Buffer>
+      </Memory>
+      <NetworkAdapter>
+        <VirtualSwitch>Internal</VirtualSwitch>
+        <VirtualSwitchType>INTERNAL</VirtualSwitchType>
+        <IP>
+          <Prefix>192.168.1.</Prefix>
+          <Sequence>4</Sequence>
+          <Mask>24</Mask>
+          <Gateway>192.168.1.1</Gateway>
+          <DNS>192.168.1.4</DNS>
+        </IP>
+      </NetworkAdapter>
+      <OSDisk>
+        <Parent>C:\VHDs\Win2012r2RTM.vhdx</Parent>
+        <Type>Differencing</Type>
+      </OSDisk>
+      <DVD>False</DVD>
+      <AutoStart>
+        <Action>Nothing</Action>
+        <Delay>0</Delay>
+      </AutoStart>
+      <Autostop>TurnOff</Autostop>
+      <JoinDomain>
+        <Domain>contoso.com</Domain>
+        <PrimaryDC>DC01.contoso.com</PrimaryDC>
+        <Credentials>
+          <Domain>contoso.com</Domain>
+          <Password>P@ssw0rd</Password>
+          <Username>Administrator</Username>
+        </Credentials>
+        <OrganizationalUnit>Servers.HQ</OrganizationalUnit>
+      </JoinDomain>
+      <AdministratorPassword>P@ssw0rd</AdministratorPassword>
+    </Default>
+    <VM Count="1">
+      <VMName>DC01</VMName>
+    </VM>
+    <VM Count="2">
+      <VMName>DB02</VMName>
+      <Memory>
+        <Startup>2048</Startup>
+        <Minimum>1024</Minimum>
+        <Maximum>8192</Maximum>
+        <Buffer>5</Buffer>
+      </Memory>
+      <DataDisks>
+        <Count>3</Count>
+        <Format>VHDX</Format>
+        <Size>200</Size>
+      </DataDisks>
+    </VM>
+    <VM Count="3">
+      <VMName>OR01</VMName>
+    </VM>
+  </VMs>
+</Installer>

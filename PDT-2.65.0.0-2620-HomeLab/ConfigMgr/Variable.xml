@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--System Center 2012R2 Configuration Manager-->
+<Installer version="2.0">
+  <Variable Name="RegisteredUser" Value="Contoso Corporation" />
+  <Variable Name="RegisteredOrganization" Value="Contoso Corporation" />
+  <Variable Name="InstallerServiceAccount" Value="CONTOSO\Installer" />
+  <Variable Name="InstallerServiceAccountPassword" Value="P@ssw0rd" />
+  <Variable Name="SourcePath" Value="$SystemDrive\Installer" />
+  <Variable Name="Download" Value="C:\Installer" />
+  <Variable Name="SystemCenter2012ProductKey" Value="" />
+  <Variable Name="SQLServer2012ProductKey" Value="" />
+  <Variable Name="DebugPS" Value="True" />
+  <Components>
+    <Component Name="System Center 2012 R2 Configuration Manager">
+      <Variable Name="SystemCenter2012R2ConfigurationManagerInstallDir" Value="D:\Program Files\Microsoft System Center 2012 R2\Configuration Manager" />
+      <Variable Name="SystemCenter2012R2ConfigurationManagerAdminGroup" Value="CONTOSO\CM Admins" />
+      <Variable Name="SystemCenter2012R2ConfigurationManagerDatabase" Value="CM_HQ1" Required="True" />
+      <Variable Name="SystemCenter2012R2ConfigurationManagerSiteCode" Value="HQ1" Required="True" />
+      <Variable Name="SystemCenter2012R2ConfigurationManagerSite" Value="Contoso" Required="True" />
+    </Component>
+    <Component Name="SQL Server 2012">
+      <Variable Name="SQLServer2012ServerAdminGroup" Value="Contoso\SQL-LocalAdmins" />
+      <Variable Name="SQLServer2012AGMembers" Value="Contoso\SQL-SVC;Contoso\SCOM-ACTION;Contoso\SCSM-SVC;Contoso\SCSM-WF;Contoso\VMM-SVC;Contoso\SCSM-OLAP;Contoso\SCSM-SSRS;Contoso\VMM01A$;Contoso\VMM01B$" />
+    </Component>
+  </Components>
+  <Roles>
+    <Role Name="System Center 2012 R2 Configuration Manager Console" Server="CM01.contoso.com" />
+    <Role Name="SQL Server 2012 Reporting Server" Server="CM01.contoso.com" Instance="MSSQLSERVER" />
+    <Role Name="System Center 2012 R2 Configuration Manager Database Server" Server="CM01.contoso.com" Instance="MSSQLSERVER" />
+    <Role Name="System Center 2012 R2 Configuration Manager Provider Server" Server="CM01.contoso.com" />
+    <Role Name="System Center 2012 R2 Configuration Manager Site Server" Server="CM01.contoso.com" />
+  </Roles>
+  <SQL>
+    <Instance Server="CM01.contoso.com" Instance="MSSQLSERVER" Version="SQL Server 2012">
+      <Variable Name="SQLAdmins" Value="CONTOSO\SQL Admins" />
+      <Variable Name="SQLInstallSQLDataDir" Value="F:\Program Files\Microsoft SQL Server" />
+      <Variable Name="SQLUserDBDir" Value="G:\Program Files\Microsoft SQL Server\MSSQL11.$Instance\MSSQL\Data" />
+      <Variable Name="SQLUserDBLogDir" Value="G:\Program Files\Microsoft SQL Server\MSSQL11.$Instance\MSSQL\Data" />
+      <Variable Name="SQLTempDBDir" Value="H:\Program Files\Microsoft SQL Server\MSSQL11.$Instance\MSSQL\Data" />
+      <Variable Name="SQLTempDBLogDir" Value="H:\Program Files\Microsoft SQL Server\MSSQL11.$Instance\MSSQL\Data" />
+    </Instance>
+  </SQL>
+  <VMs>
+    <Count>2</Count>
+    <Domain>
+      <Name>CONTOSO.com</Name>
+      <ServiceAccountOU>Services.HQ</ServiceAccountOU>
+      <GroupOU>Groups.HQ</GroupOU>
+      <Existing>True</Existing>
+    </Domain>
+    <Default>
+      <Host>Localhost</Host>
+      <VMFolder>C:\PDTVMs</VMFolder>
+      <VHDFolder>C:\PDTVMs</VHDFolder>
+      <SharedVHDXFolder>C:\SHAREDVHDX</SharedVHDXFolder>
+      <VMName>
+        <Prefix>WS12R2D</Prefix>
+        <Sequence>1</Sequence>
+      </VMName>
+      <Processor>2</Processor>
+      <Memory>
+        <Startup>768</Startup>
+        <Minimum>512</Minimum>
+        <Maximum>2048</Maximum>
+        <Buffer>20</Buffer>
+      </Memory>
+      <NetworkAdapter>
+        <VirtualSwitch>Internal</VirtualSwitch>
+        <VirtualSwitchType>INTERNAL</VirtualSwitchType>
+        <IP>
+          <Prefix>192.168.1.</Prefix>
+          <Sequence>4</Sequence>
+          <Mask>24</Mask>
+          <Gateway>192.168.1.1</Gateway>
+          <DNS>192.168.1.4</DNS>
+        </IP>
+      </NetworkAdapter>
+      <OSDisk>
+        <Parent>C:\VHDs\Win2012r2RTM.vhdx</Parent>
+        <Type>Differencing</Type>
+      </OSDisk>
+      <DVD>False</DVD>
+      <AutoStart>
+        <Action>Nothing</Action>
+        <Delay>0</Delay>
+      </AutoStart>
+      <Autostop>TurnOff</Autostop>
+      <JoinDomain>
+        <Domain>contoso.com</Domain>
+        <PrimaryDC>DC01.contoso.com</PrimaryDC>
+        <Credentials>
+          <Domain>contoso.com</Domain>
+          <Password>P@ssw0rd</Password>
+          <Username>Administrator</Username>
+        </Credentials>
+        <OrganizationalUnit>Servers.HQ</OrganizationalUnit>
+      </JoinDomain>
+      <AdministratorPassword>P@ssw0rd</AdministratorPassword>
+    </Default>
+    <VM Count="1">
+      <VMName>DC01</VMName>
+    </VM>
+    <VM Count="2">
+      <VMName>CM01</VMName>
+      <Memory>
+        <Startup>1024</Startup>
+        <Minimum>512</Minimum>
+        <Maximum>4096</Maximum>
+        <Buffer>5</Buffer>
+      </Memory>
+      <DataDisks>
+        <Count>5</Count>
+        <Format>VHDX</Format>
+        <Size>100</Size>
+      </DataDisks>
+      <NetworkAdapter>
+        <IP>192.168.1.35</IP>
+      </NetworkAdapter>
+    </VM>
+  </VMs>
+</Installer>

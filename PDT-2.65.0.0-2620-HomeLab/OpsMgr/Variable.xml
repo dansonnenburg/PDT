@@ -1,0 +1,219 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--System Center Operations Manager-->
+<Installer version="2.0">
+  <Variable Name="RegisteredUser" Value="Contoso Corporation" />
+  <Variable Name="RegisteredOrganization" Value="Contoso Corporation" />
+  <Variable Name="InstallerServiceAccount" Value="CONTOSO\Installer" />
+  <Variable Name="InstallerServiceAccountPassword" Value="P@ssw0rd" />
+  <Variable Name="SourcePath" Value="$SystemDrive\Installer" />
+  <Variable Name="Download" Value="C:\Installer" />
+  <Variable Name="SystemCenter2012ProductKey" Value="" />
+  <Variable Name="SQLServer2012ProductKey" Value="" />
+  <Variable Name="DebugPS" Value="True" />
+  <Components>
+    <Component Name="System Center 2012 R2 Operations Manager">
+      <Variable Name="SystemCenter2012R2OperationsManagerAdminGroup" Value="CONTOSO\SCOM-Admins" />
+      <Variable Name="SystemCenter2012R2OperationsManagerServerAdminGroup" Value="CONTOSO\SCOM-LocalAdmins" />
+      <Variable Name="SystemCenter2012R2OperationsManagerAGMembers" Value="CONTOSO\SCOM-SVC;Contoso\SCOM-ACTION;Contoso\VMM-SVC;Contoso\SCO-SVC;Contoso\SQL-SVC;Contoso\SQL-Admins" />
+      <Variable Name="SystemCenter2012R2OperationsManagerManagementGroupName" Value="SCOM_Contoso" />
+      <Variable Name="SystemCenter2012R2OperationsManagerActionServiceAccount" Value="CONTOSO\SCOM-ACTION" />
+      <Variable Name="SystemCenter2012R2OperationsManagerActionServiceAccountPassword" Value="P@ssw0rd" />
+      <Variable Name="SystemCenter2012R2OperationsManagerDASServiceAccount" Value="CONTOSO\SCOM-SVC" />
+      <Variable Name="SystemCenter2012R2OperationsManagerDASServiceAccountPassword" Value="P@ssw0rd" />
+      <Variable Name="SystemCenter2012R2OperationsManagerDataReaderServiceAccount" Value="CONTOSO\SCOM-DR" />
+      <Variable Name="SystemCenter2012R2OperationsManagerDataReaderServiceAccountPassword" Value="P@ssw0rd" />
+      <Variable Name="SystemCenter2012R2OperationsManagerDataWriterServiceAccount" Value="CONTOSO\SCOM-DW" />
+      <Variable Name="SystemCenter2012R2OperationsManagerDataWriterServiceAccountPassword" Value="P@ssw0rd" />
+    </Component>
+    <Component Name="SQL Server 2012">
+      <Variable Name="SQLServer2012ServerAdminGroup" Value="Contoso\SQL-LocalAdmins" />
+      <Variable Name="SQLServer2012AGMembers" Value="Contoso\SQL-SVC;Contoso\SCOM-ACTION;Contoso\SCSM-SVC;Contoso\SCSM-WF;Contoso\VMM-SVC;Contoso\SCSM-OLAP;Contoso\SCSM-SSRS;Contoso\VMM01A$;Contoso\VMM01B$" />
+    </Component>
+  </Components>
+  <Roles>
+    <Role Name="System Center 2012 R2 Operations Manager Database Server" Server="DB01.CONTOSO.com" Instance="SCOMDB" />
+    <Role Name="System Center 2012 R2 Operations Manager Datawarehouse Server" Server="DB03.contoso.com" Instance="SCOMDW" />
+    <Role Name="System Center 2012 R2 Operations Manager Reporting Server" Server="OMRP01.contoso.com" Instance="MSSQLSERVER" />
+    <Role Name="System Center 2012 R2 Operations Manager Management Server" Server="OM01.contoso.com" />
+    <Role Name="System Center 2012 R2 Operations Manager Web Console Server" Server="OM01.contoso.com" />
+    <Role Name="System Center 2012 R2 Operations Manager Console" Server="OM01.contoso.com" />
+    <Role Name="System Center 2012 R2 Operations Manager Console" Server="RD01.contoso.com" />
+    <Role Name="SQL Server 2012 Management Tools" Server="OMRP01.Contoso.com" />
+    <Role Name="SQL Server 2012 Management Tools" Server="RD01.contoso.com" />
+    <Role Name="SQL Server 2012 Management Tools" Server="DB01.contoso.com" />
+    <Role Name="SQL Server 2012 Management Tools" Server="DB03.contoso.com" />
+  </Roles>
+  <SQL>
+    <Instance Server="DB01.contoso.com" Instance="MSSQLSERVER" Version="SQL Server 2012">
+      <Variable Name="SQLAdmins" Value="CONTOSO\SQL-Admins" />
+      <Variable Name="SQLInstallSQLDataDir" Value="D:\Program Files\Microsoft SQL Server" />
+      <Variable Name="SQLUserDBDir" Value="D:\Program Files\Microsoft SQL Server\MSSQL11.$Instance\MSSQL\Data" />
+      <Variable Name="SQLUserDBLogDir" Value="E:\Program Files\Microsoft SQL Server\MSSQL11.$Instance\MSSQL\Data" />
+      <Variable Name="SQLTempDBDir" Value="F:\Program Files\Microsoft SQL Server\MSSQL11.$Instance\MSSQL\Data" />
+      <Variable Name="SQLTempDBLogDir" Value="F:\Program Files\Microsoft SQL Server\MSSQL11.$Instance\MSSQL\Data" />
+      <Variable Name="SQLAgtServiceAccount" Value="CONTOSO\SQL-SVC" />
+      <Variable Name="SQLAgtServiceAccountPassword" Value="Pass@word1" />
+      <Variable Name="SQLServiceAccount" Value="CONTOSO\SQL-SVC" />
+      <Variable Name="SQLServiceAccountPassword" Value="Pass@word1" />
+      <Variable Name="SQLSAPassword" Value="P@ssw0rd" />
+    </Instance>
+    <Instance Server="DB03.contoso.com" Instance="SCOMDW" Version="SQL Server 2012">
+      <Variable Name="SQLAdmins" Value="CONTOSO\SQL Admins" />
+      <Variable Name="SQLInstallSQLDataDir" Value="D:\Program Files\Microsoft SQL Server" />
+      <Variable Name="SQLUserDBDir" Value="D:\Program Files\Microsoft SQL Server\MSSQL11.$Instance\MSSQL\Data" />
+      <Variable Name="SQLUserDBLogDir" Value="E:\Program Files\Microsoft SQL Server\MSSQL11.$Instance\MSSQL\Data" />
+      <Variable Name="SQLTempDBDir" Value="F:\Program Files\Microsoft SQL Server\MSSQL11.$Instance\MSSQL\Data" />
+      <Variable Name="SQLTempDBLogDir" Value="F:\Program Files\Microsoft SQL Server\MSSQL11.$Instance\MSSQL\Data" />
+      <Variable Name="SQLASDataDir" Value="G:\Program Files\Microsoft SQL Server\MSAS11.$Instance\OLAP\Data" />
+      <Variable Name="SQLASLogDir" Value="H:\Program Files\Microsoft SQL Server\MSAS11.$Instance\OLAP\Log" />
+      <Variable Name="SQLASBackupDir" Value="G:\Program Files\Microsoft SQL Server\MSAS11.$Instance\OLAP\Backup" />
+      <Variable Name="SQLASTempDir" Value="I:\Program Files\Microsoft SQL Server\MSAS11.$Instance\OLAP\Temp" />
+      <Variable Name="SQLAgtServiceAccount" Value="CONTOSO\SQL-SVC" />
+      <Variable Name="SQLAgtServiceAccountPassword" Value="Pass@word1" />
+      <Variable Name="SQLServiceAccount" Value="CONTOSO\SQL-SVC" />
+      <Variable Name="SQLServiceAccountPassword" Value="Pass@word1" />
+      <Variable Name="SQLASServiceAccount" Value="CONTOSO\SQL-SVC" />
+      <Variable Name="SQLASServiceAccountPassword" Value="Pass@word1" />
+    </Instance>
+    <Instance Server="DB01.contoso.com" Instance="SCOMDB" Version="SQL Server 2012">
+      <Variable Name="SQLAdmins" Value="CONTOSO\SQL-Admins" />
+      <Variable Name="SQLInstallSQLDataDir" Value="D:\Program Files\Microsoft SQL Server" />
+      <Variable Name="SQLUserDBDir" Value="D:\Program Files\Microsoft SQL Server\MSSQL11.$Instance\MSSQL\Data" />
+      <Variable Name="SQLUserDBLogDir" Value="E:\Program Files\Microsoft SQL Server\MSSQL11.$Instance\MSSQL\Data" />
+      <Variable Name="SQLTempDBDir" Value="F:\Program Files\Microsoft SQL Server\MSSQL11.$Instance\MSSQL\Data" />
+      <Variable Name="SQLTempDBLogDir" Value="F:\Program Files\Microsoft SQL Server\MSSQL11.$Instance\MSSQL\Data" />
+      <Variable Name="SQLAgtServiceAccount" Value="CONTOSO\SQL-SVC" />
+      <Variable Name="SQLAgtServiceAccountPassword" Value="Pass@word1" />
+      <Variable Name="SQLServiceAccount" Value="CONTOSO\SQL-SVC" />
+      <Variable Name="SQLServiceAccountPassword" Value="Pass@word1" />
+      <Variable Name="SQLSAPassword" Value="P@ssw0rd" />
+    </Instance>
+    <Instance Server="DB01.contoso.com" Instance="SCSMDB" Version="SQL Server 2012">
+      <Variable Name="SQLAdmins" Value="CONTOSO\SQL-Admins" />
+      <Variable Name="SQLInstallSQLDataDir" Value="D:\Program Files\Microsoft SQL Server" />
+      <Variable Name="SQLUserDBDir" Value="D:\Program Files\Microsoft SQL Server\MSSQL11.$Instance\MSSQL\Data" />
+      <Variable Name="SQLUserDBLogDir" Value="E:\Program Files\Microsoft SQL Server\MSSQL11.$Instance\MSSQL\Data" />
+      <Variable Name="SQLTempDBDir" Value="F:\Program Files\Microsoft SQL Server\MSSQL11.$Instance\MSSQL\Data" />
+      <Variable Name="SQLTempDBLogDir" Value="F:\Program Files\Microsoft SQL Server\MSSQL11.$Instance\MSSQL\Data" />
+      <Variable Name="SQLAgtServiceAccount" Value="CONTOSO\SQL-SVC" />
+      <Variable Name="SQLAgtServiceAccountPassword" Value="Pass@word1" />
+      <Variable Name="SQLServiceAccount" Value="CONTOSO\SQL-SVC" />
+      <Variable Name="SQLServiceAccountPassword" Value="Pass@word1" />
+      <Variable Name="SQLSAPassword" Value="P@ssw0rd" />
+    </Instance>
+    <Instance Server="OMRP01.CONTOSO.com" Instance="MSSQLSERVER" Version="SQL Server 2012">
+      <Variable Name="SQLAdmins" Value="CONTOSO\SQL-Admins" />
+      <Variable Name="SQLAgtServiceAccount" Value="CONTOSO\SQL-SVC" />
+      <Variable Name="SQLAgtServiceAccountPassword" Value="Pass@word1" />
+      <Variable Name="SQLServiceAccount" Value="CONTOSO\SQL-SVC" />
+      <Variable Name="SQLServiceAccountPassword" Value="Pass@word1" />
+    </Instance>
+  </SQL>
+  <VMs>
+    <Count>7</Count>
+	<Domain>
+      <Name>CONTOSO.com</Name>
+      <ServiceAccountOU>Services.HQ</ServiceAccountOU>
+      <GroupOU>Groups.HQ</GroupOU>
+      <Existing>True</Existing>
+    </Domain>
+    <Default>
+      <Host>Localhost</Host>
+      <VMFolder>C:\PDTVMs</VMFolder>
+      <VHDFolder>C:\PDTVMs</VHDFolder>
+      <SharedVHDXFolder>C:\SHAREDVHDX</SharedVHDXFolder>
+      <VMName>
+        <Prefix>WS12R2D</Prefix>
+        <Sequence>1</Sequence>
+      </VMName>
+      <Processor>2</Processor>
+      <Memory>
+        <Startup>768</Startup>
+        <Minimum>512</Minimum>
+        <Maximum>2048</Maximum>
+        <Buffer>20</Buffer>
+      </Memory>
+      <NetworkAdapter>
+        <VirtualSwitch>Internal</VirtualSwitch>
+        <VirtualSwitchType>INTERNAL</VirtualSwitchType>
+        <IP>
+          <Prefix>192.168.1.</Prefix>
+          <Sequence>4</Sequence>
+          <Mask>24</Mask>
+          <Gateway>192.168.1.1</Gateway>
+          <DNS>192.168.1.4</DNS>
+        </IP>
+      </NetworkAdapter>
+      <OSDisk>
+        <Parent>C:\VHDs\Win2012r2RTM.vhdx</Parent>
+        <Type>Differencing</Type>
+      </OSDisk>
+      <DVD>False</DVD>
+      <AutoStart>
+        <Action>Nothing</Action>
+        <Delay>0</Delay>
+      </AutoStart>
+      <Autostop>TurnOff</Autostop>
+      <JoinDomain>
+        <Domain>contoso.com</Domain>
+        <PrimaryDC>DC01.contoso.com</PrimaryDC>
+        <Credentials>
+          <Domain>contoso.com</Domain>
+          <Password>P@ssw0rd</Password>
+          <Username>Administrator</Username>
+        </Credentials>
+        <OrganizationalUnit>Servers.HQ</OrganizationalUnit>
+      </JoinDomain>
+      <AdministratorPassword>P@ssw0rd</AdministratorPassword>
+    </Default>
+    <VM Count="1">
+      <VMName>DC01</VMName>
+    </VM>
+    <VM Count="2">
+      <VMName>RD01</VMName>
+    </VM>
+    <VM Count="3">
+      <VMName>DB01</VMName>
+      <Memory>
+        <Startup>2048</Startup>
+        <Minimum>1024</Minimum>
+        <Maximum>4096</Maximum>
+        <Buffer>5</Buffer>
+      </Memory>
+      <DataDisks>
+        <Count>3</Count>
+        <Format>VHDX</Format>
+        <Size>200</Size>
+      </DataDisks>
+    </VM>
+    <VM Count="4">
+      <VMName>DB03</VMName>
+      <Memory>
+        <Startup>2048</Startup>
+        <Minimum>1024</Minimum>
+        <Maximum>8192</Maximum>
+        <Buffer>5</Buffer>
+      </Memory>
+      <DataDisks>
+        <Count>6</Count>
+        <Format>VHDX</Format>
+        <Size>20</Size>
+      </DataDisks>
+    </VM>
+    <VM Count="5">
+      <VMName>OM01</VMName>
+      <Memory>
+        <Startup>2048</Startup>
+        <Minimum>2048</Minimum>
+        <Maximum>4096</Maximum>
+        <Buffer>20</Buffer>
+      </Memory>
+    </VM>
+    <VM Count="6">
+      <VMName>OMRP01</VMName>
+    </VM>
+    <VM Count="7">
+      <VMName>OR01</VMName>
+    </VM>
+  </VMs>
+</Installer>
